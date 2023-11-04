@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Domain.Entities;
 
 namespace Domain.Interfaces;
-public interface IRaza : IGenericRepository<Raza>
+public interface IRazaRepository : IGenericRepository<Raza>
 {
 
 }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Domain.Entities;
 
 namespace Domain.Interfaces;
-public interface ICiudad : IGenericRepository<Ciudad>
+public interface ICiudadRepository : IGenericRepository<Ciudad>
 {
 
 }

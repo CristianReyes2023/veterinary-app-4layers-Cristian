@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Domain.Entities;
 
 namespace Domain.Interfaces;
-public interface IMascota : IGenericRepository<Mascota>
+public interface IServicioRepository : IGenericRepository<Servicio>
 {
 
 }

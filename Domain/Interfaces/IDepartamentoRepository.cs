@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Domain.Entities;
 
 namespace Domain.Interfaces;
-public interface IServicio : IGenericRepository<Servicio>
+public interface IDepartamentoRepository : IGenericRepository<Departamento>
 {
 
 }

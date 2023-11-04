@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Domain.Entities;
 
 namespace Domain.Interfaces;
-public interface ICita : IGenericRepository<Cita>
+public interface IClienteTelefonoRepository : IGenericRepository<ClienteTelefono>
 {
 
 }

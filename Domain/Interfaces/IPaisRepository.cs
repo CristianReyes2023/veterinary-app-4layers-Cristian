@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Domain.Entities;
 
 namespace Domain.Interfaces;
-public interface ICliente : IGenericRepository<Cliente>
+public interface IPaisRepository : IGenericRepository<Pais>
 {
-
 }
