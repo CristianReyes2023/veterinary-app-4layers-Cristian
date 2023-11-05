@@ -1,3 +1,6 @@
+using System.Reflection;
+using API.Extensions;
+using AspNetCoreRateLimit;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Data;
 
@@ -11,6 +14,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
+builder.Services.ConfigureCors();
+builder.Services.ConfigureRateLimiting();
+builder.Services.AddApplicationServices();
+builder.Services.AddAutoMapper(Assembly.GetEntryAssembly());
 builder.Services.AddDbContext<VeterinaryAppContext>(optionsBuilder =>
 {
     string connectionString = builder.Configuration.GetConnectionString("MySqlConex");
@@ -26,7 +33,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors("CorsPolicy");
+app.UseIpRateLimiting();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
