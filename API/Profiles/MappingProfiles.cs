@@ -20,5 +20,6 @@ public class MappingProfiles : Profile
         CreateMap<Pais,PaisDto>().ReverseMap();
         CreateMap<Raza,RazaDto>().ReverseMap();
         CreateMap<Servicio,ServicioDto>().ReverseMap();
+        CreateMap<Departamento,DepartamentoListaCiudadDto>().ReverseMap();
     }
 }

@@ -1,0 +1,160 @@
+CREATE DATABASE IF NOT EXISTS VeterinaryPractice;
+
+USE VeterinaryPractice;
+
+DROP TABLE IF EXISTS breed;
+
+CREATE TABLE breed(
+    Id INT NOT NULL AUTO_INCREMENT,
+    NameBreed VARCHAR(50) NOT NULL,
+    CONSTRAINT Pk_breed PRIMARY KEY (Id)
+);
+
+DROP TABLE IF EXISTS service;
+
+CREATE TABLE service(
+    Id INT NOT NULL AUTO_INCREMENT,
+    NameService VARCHAR(50) NOT NULL,
+    Price DOUBLE(11,2) NOT NULL,
+    CONSTRAINT Pk_service PRIMARY KEY (Id)
+);
+
+DROP TABLE IF EXISTS client;
+
+CREATE TABLE client (
+    Id INT NOT NULL AUTO_INCREMENT,
+    NameClient VARCHAR(50) NOT NULL,
+    LastnameClient VARCHAR(50) NOT NULL,
+    EmailClient VARCHAR(50) NOT NULL,
+    CONSTRAINT Pk_client PRIMARY KEY (Id)
+);
+
+DROP TABLE IF EXISTS pet;
+
+CREATE TABLE pet(
+    Id INT NOT NULL AUTO_INCREMENT,
+    NamePet VARCHAR(50) NOT NULL,
+    Species VARCHAR(50) NOT NULL,
+    BirdDate DATE NOT NULL,
+    IdBreedFk INT(11) NOT NULL,
+    IdClientFk INT (11) NOT NULL,
+    CONSTRAINT Pk_pet PRIMARY KEY(Id),
+    CONSTRAINT Fk_IdBreedFk FOREIGN KEY (IdBreedFk) REFERENCES breed(Id),
+    CONSTRAINT Fk_IdClientFk FOREIGN KEY (IdClientFk) REFERENCES client(Id)
+);
+DROP TABLE IF EXISTS appointment;
+
+CREATE TABLE appointment (
+    Id INT NOT NULL AUTO_INCREMENT,
+    ServiceDate DATE NOT NULL,
+    HourDate TIME NOT NULL,
+    IdPetFk INT(11) NOT NULL,
+    IdServiceFk INT(11) NOT NULL,
+    IdClientFk INT(11) NOT NULL,
+    CONSTRAINT Pk_appointment PRIMARY KEY (Id),
+    CONSTRAINT Fk_IdClientFk_appointment FOREIGN KEY (IdClientFk) REFERENCES client(Id),
+    CONSTRAINT Fk_IdPetFk FOREIGN KEY (IdPetFk) REFERENCES pet(Id),
+    CONSTRAINT Fk_IdServiceFk FOREIGN KEY (IdServiceFk) REFERENCES service(Id)
+);
+
+DROP TABLE IF EXISTS clientphone;
+
+CREATE TABLE clientphone(
+    Id INT NOT NULL AUTO_INCREMENT,
+    PhoneNumber VARCHAR(20) NOT NULL,
+    IdClientFk INT(11) NOT NULL,
+    CONSTRAINT Pk_clientphone PRIMARY KEY (Id),
+    CONSTRAINT Fk_IdClientFk_cf FOREIGN KEY (IdClientFk) REFERENCES client(Id)
+);
+
+DROP TABLE IF EXISTS country;
+
+CREATE TABLE country(
+    Id INT NOT NULL AUTO_INCREMENT,
+    CountryName VARCHAR(50) NOT NULL,
+    CONSTRAINT Pk_country PRIMARY KEY(Id)
+);
+
+DROP TABLE IF EXISTS state;
+
+CREATE TABLE state(
+    Id INT NOT NULL AUTO_INCREMENT,
+    StateName VARCHAR(50) NOT NULL,
+    IdCountryFk INT(11) NOT NULL,
+    CONSTRAINT Pk_state PRIMARY KEY (Id),
+    CONSTRAINT Fk_IdCountryFk FOREIGN KEY (IdCountryFk) REFERENCES country(Id)
+);
+
+DROP TABLE IF EXISTS city;
+
+CREATE TABLE city(
+    Id INT NOT NULL AUTO_INCREMENT,
+    CityName VARCHAR(50) NOT NULL,
+    IdStateFk INT(11) NOT NULL,
+    CONSTRAINT Pk_city PRIMARY KEY (Id),
+    CONSTRAINT Fk_IdStateFk FOREIGN KEY (IdStateFk) REFERENCES state(Id)
+);
+
+DROP TABLE IF EXISTS addressclient;
+
+CREATE TABLE addressclient(
+    Id INT NOT NULL AUTO_INCREMENT,
+    TipoDeVia VARCHAR(50) NOT NULL,
+    NumeroPri INT(2) NOT NULL,
+    Letra VARCHAR(50) NOT NULL,
+    Bis VARCHAR(10) NOT NULL,
+    LetraSec VARCHAR(10) NOT NULL,
+    Cardinal VARCHAR(10) NOT NULL,
+    NumeroSec INT(2) NOT NULL,
+    LetraTer VARCHAR(10) NOT NULL,
+    NumeroTer INT(2) NOT NULL,
+    CardinalSec VARCHAR(10) NOT NULL,
+    Complemento VARCHAR(50) NOT NULL,
+    CodigoPostal VARCHAR(10) NOT NULL,
+    IdCityFk INT(11) NOT NULL,
+    IdClientFk INT(11) NOT NULL,
+    CONSTRAINT Pk_addressclient PRIMARY KEY (Id),
+    CONSTRAINT Fk_IdCityFk FOREIGN KEY (IdCityFk) REFERENCES city(Id),
+    CONSTRAINT Fk_IdClientFk_cd FOREIGN KEY (IdClientFk) REFERENCES client(Id)
+);
+
+DROP TABLE IF EXISTS user;
+
+CREATE TABLE user(
+    Id INT NOT NULL AUTO_INCREMENT,
+    Username VARCHAR(50) NOT NULL,
+    Email VARCHAR(50) NOT NULL,
+    Password VARCHAR(50) NOT NULL,
+    CONSTRAINT Pk_user PRIMARY KEY (Id)
+);
+
+DROP TABLE IF EXISTS rol;
+
+CREATE TABLE rol(
+    Id INT NOT NULL AUTO_INCREMENT,
+    Name VARCHAR(50) NOT NULL,
+    CONSTRAINT Pk_rol PRIMARY KEY (Id)
+);
+
+DROP TABLE IF EXISTS userrol;
+
+CREATE TABLE userrol(
+    IdUserFk INT(11),
+    IdRolFk INT(11),
+    CONSTRAINT Pk_userrol PRIMARY KEY(IdUserFk,IdRolFk),
+    CONSTRAINT Fk_IdUserFk_userrol FOREIGN KEY (IdUserFk) REFERENCES user(Id),
+    CONSTRAINT Fk_IdRolFk FOREIGN KEY (IdRolFk) REFERENCES rol(Id)
+);
+
+DROP TABLE IF EXISTS refreshtoken;
+
+CREATE TABLE refreshtoken(
+    Id INT NOT NULL AUTO_INCREMENT,
+    Token VARCHAR(10) NOT NULL,
+    Expires DATETIME NOT NULL,
+    Created DATETIME NOT NULL,
+    Revoked DATETIME NOT NULL,
+    IdUserFk INT(11) NOT NULL,
+    CONSTRAINT Pk_refreshtoken PRIMARY KEY (Id),
+    CONSTRAINT Fk_IdUserFk FOREIGN KEY (IdUserFk) REFERENCES user(Id)
+);

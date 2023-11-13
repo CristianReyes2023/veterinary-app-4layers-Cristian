@@ -9,5 +9,5 @@ public class Pais : BaseEntity
 {
     [Required]
     public string NombrePais { get; set; }
-    public ICollection<Departamento> Departamentos { get; set; }
+    public ICollection<Departamento> Departamentos { get; set; } 
 }

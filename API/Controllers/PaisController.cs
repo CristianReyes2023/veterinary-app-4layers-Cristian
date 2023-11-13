@@ -29,6 +29,32 @@ namespace API.Controllers
             // return Ok(entity);
             return _mapper.Map<List<PaisDto>>(paises);
         }
+        [HttpGet("{Id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<PaisDto>> Get(int Id)
+        {
+            var pais = await _unitOfWork.Paises.GetByIdAsync(Id);
+            if (pais == null)
+            {
+                return NotFound();
+            }
+            return _mapper.Map<PaisDto>(pais);
+        }
+        [HttpGet("GetPaisByNameDepartamento/{name}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<PaisDto>> GetPaisByNameDepartamento(string name)
+        {
+            var pais = await _unitOfWork.Paises.GetPaisByNameDepartamento(name);
+            if (pais == null)
+            {
+                return NotFound();
+            }
+            return _mapper.Map<PaisDto>(pais);
+        }
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]//Insertado correctamente
         [ProducesResponseType(StatusCodes.Status400BadRequest)]//La solicitud fue errada  
@@ -78,19 +104,6 @@ namespace API.Controllers
             _unitOfWork.Paises.Remove(pais);
             await _unitOfWork.SaveAsync();
             return NoContent();
-        }
-        [HttpGet("{Id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<PaisDto>> Get(int Id)
-        {
-            var pais = await _unitOfWork.Paises.GetByIdAsync(Id);
-            if (pais == null)
-            {
-                return NotFound();
-            }
-            return _mapper.Map<PaisDto>(pais);
         }
     }
 }
